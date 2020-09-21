@@ -5,21 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmandalo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/15 22:44:49 by tmandalo          #+#    #+#             */
-/*   Updated: 2020/09/15 22:44:51 by tmandalo         ###   ########.fr       */
+/*   Created: 2020/09/20 16:06:23 by tmandalo          #+#    #+#             */
+/*   Updated: 2020/09/20 16:10:43 by tmandalo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 
 void	ft_putstr(char *str)
 {
-	int i;
+	int		i;
+	char	merge[3];
 
-	while (str[i])
+	i = 0;
+	merge[0] = *str;
+	merge[1] = '\0';
+	while (merge[i] != '\0')
 	{
+		write(1, &merge[i], 1);
 		i++;
 	}
-	write(1, str, i);
 }

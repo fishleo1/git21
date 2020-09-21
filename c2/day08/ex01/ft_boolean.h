@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_swap.c                                          :+:      :+:    :+:   */
+/*   ft_boolean.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmandalo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/11 10:41:31 by tmandalo          #+#    #+#             */
-/*   Updated: 2020/09/11 21:01:38 by tmandalo         ###   ########.fr       */
+/*   Created: 2020/09/19 17:47:01 by tmandalo          #+#    #+#             */
+/*   Updated: 2020/09/19 17:47:18 by tmandalo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-
-void	ft_swap(int *a, int *b)
+#include "ft_boolean.h"
+void ft_putstr(char *str)
 {
-	int c;
-
-	c = *a;
-	*a = *b;
-	*b = c;
+while (*str)
+write(1, str++, 1);
+}
+t_bool ft_is_even(int nbr)
+{
+return ((EVEN(nbr)) ? TRUE : FALSE);
+}
+int main(int argc, char **argv)
+{
+(void)argv;
+if (ft_is_even(argc - 1) == TRUE)
+ft_putstr(EVEN_MSG);
+else
+ft_putstr(ODD_MSG);
+return (SUCCESS);
 }
