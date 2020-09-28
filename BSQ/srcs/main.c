@@ -3,17 +3,32 @@
 char	**ft_map(int y, int x, char *str)
 {
 	int i;
+	int j;
+	int k;
 	char **map;
 
-	(void)str;
 	i = 0;
 	map = malloc((y + 1) * sizeof(char *));
 	while (i < y)
-	{
-		map[i] = malloc((x + 1) * sizeof(char));
-		i++;
-	}
+		map[i++] = malloc((x + 1) * sizeof(char));
 	map[i] = 0;
+	i = 0;
+	k = 0;
+	j = -1;
+	while (str[k])
+	{
+		if (j >= 0 && str[k] != '\n')
+			map[j][i] = str[k];
+		i++;
+		if (str[k] == '\n')
+		{
+			if (j >= 0)
+				map[j][i] = '\0';
+			j++;
+			i = 0;
+		}
+		k++;
+	}
 	return (0);
 }
 
@@ -29,18 +44,17 @@ int	ft_open(char *str)
 		return (0);
 	while ((i = read(file_desc, buff, SIZE)) > 0);
 	close(file_desc);
-	if (!map_check(buff))
+	file_desc = map_check(buff);
+	if (!file_desc)
 		return(0);
 	else
 	{
+		i = 0;
 		j = 0;
-		while (*str)
-		{
-			if (*str == '\n')
+		while (buff[i])
+			if (buff[i++] == '\n')
 				j++;
-			str++;
-		}
-		ft_map(j - 1, map_lines(str), str);
+		ft_map(j - 1, file_desc, buff);
 	}
 	return (1);
 }
