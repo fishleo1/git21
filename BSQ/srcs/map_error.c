@@ -58,7 +58,7 @@ int	map_lines(char *str)
   int j;
   int line;
   int line_i;
-  
+
   i = 0;
   j = 0;
   line = 0;
