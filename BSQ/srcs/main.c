@@ -21,20 +21,21 @@ char	**ft_map(int y, int x, char *str, char *chars)
 	int i;
 	int j;
 	int k;
-	int max;
+	int max[3];
 	char **map;
 	int **index;
 
+	//malloc map
 	i = 0;
 	map = malloc((y + 1) * sizeof(char *));
 	while (i < y)
 		map[i++] = malloc((x + 1) * sizeof(char));
 	map[i] = 0;
-
+	//copy map
 	i = 0;
 	k = 0;
 	j = -1;
-	while (str[k])
+	while (j < y)
 	{
 		if (j >= 0 && str[k] != '\n')
 			map[j][i] = str[k];
@@ -48,15 +49,15 @@ char	**ft_map(int y, int x, char *str, char *chars)
 		}
 		k++;
 	}
-
+	//malloc index table
 	i = 0;
 	index = malloc((y) * sizeof(int *));
 	while (i < y)
-		index[i++] = malloc((x + 1) * sizeof(int));
-
+		index[i++] = malloc((x) * sizeof(int));
+	//make index table
 	i = 0;
 	j = 0;
-	max = 1;
+	max[2] = 0;
 	while (map[i])
 	{
 		j = 0;
@@ -72,34 +73,52 @@ char	**ft_map(int y, int x, char *str, char *chars)
 				if (index[i][j - 1] < k)
 					k = index[i][j - 1];
 				index[i][j] = k + 1;
-				if (k + 1 > max)
+				if (k + 1 > max[2])
 				{
-					max = k + 1;
-					printf("Max: %d, i: %d, j: %d\n", max, i, j);
+					max[2] = k + 1;
+					max[0] = i - max[2] + 1;
+					max[1] = j - max[2] + 1;
+					//printf("Max: %d, i: %d, j: %d\n", max[2], max[0], max[1]);
 				}
 			}
 			else
 				index[i][j] = 1;
 			j++;
 		}
-		index[i][j] = -42;
 		i++;
 	}
-
-	printf("\n");
-
+	/*
+	//print index table
 	i = 0;
 	while (i < y)
 	{
 		j = 0;
-		while (index[i][j] > -1)
-		{
-			printf("%d", index[i][j]);
-			j++;
-		}
+		while (j < x)
+			printf("%d__", index[i][j++]);
 		printf("\n");
 		i++;
 	}
+	*/
+
+	//insert square
+	i = max[0];
+	j = max[1];
+	while (i < max[0] + max[2])
+	{
+		j = max[1];
+		while (j < max[1] + max[2])
+		{
+			map[i][j] = chars[2];
+			j++;
+		}
+		i++;
+	}
+	free(index);
+	//print xxx-ed map
+	i = 0;
+	while (map[i])
+		printf("%s\n", map[i++]);
+	free(map);
 	return (0);
 }
 
@@ -108,7 +127,7 @@ int	ft_open(char *str)
 	int file_desc;
 	int i;
 	int j;
-	char buff[SIZE];
+	static char buff[SIZE];
 
 	file_desc = open(str, O_RDONLY);
 	if (file_desc < 0)
@@ -125,6 +144,7 @@ int	ft_open(char *str)
 		while (buff[i])
 			if (buff[i++] == '\n')
 				j++;
+		//printf("%d, %d, %s\n", j - 1, file_desc, ft_chars(buff));
 		ft_map(j - 1, file_desc, buff, ft_chars(buff));
 	}
 	return (1);
@@ -139,8 +159,8 @@ int	main(int argc, char *argv[])
   {
     if (!ft_open(argv[i]))
       printf("Map error\n");
-    else
-      printf("\n");
+		if (i != argc - 1)
+			printf("\n");
     i++;
   }
   return (0);
