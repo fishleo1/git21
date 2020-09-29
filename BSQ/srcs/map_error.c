@@ -2,52 +2,28 @@
 
 int	map_isprint(char *str)
 {
-  int i;
-  int j;
-  int line_0;
+  char *chars;
 
-  i = 0;
-  j = 0;
-  line_0 = 0;
-  while (str[i])
-  {
-    if (j == 0 && str[i] != '\n')
-      line_0++;
-    if (str[i] == '\n')
-      j++;
-    i++;
-  }
-  if (str[line_0 - 1] < 32 || str[line_0 - 1] == 127)
+	chars = ft_chars(str);
+  if (chars[0] < 32 || chars[0] == 127)
     return (0);
-  if (str[line_0 - 2] < 32 || str[line_0 - 1] == 127)
+  if (chars[1] < 32 || chars[1] == 127)
     return (0);
-  if (str[line_0 - 3] < 32 || str[line_0 - 1] == 127)
+  if (chars[2] < 32 || chars[2] == 127)
     return (0);
   return (1);
 }
 
 int	map_double(char *str)
 {
-  int i;
-  int j;
-  int line_0;
+	char *chars;
 
-  i = 0;
-  j = 0;
-  line_0 = 0;
-  while (str[i])
-  {
-    if (j == 0 && str[i] != '\n')
-      line_0++;
-    if (str[i] == '\n')
-      j++;
-    i++;
-  }
-  if (str[line_0 - 1] == str[line_0 - 2])
+	chars = ft_chars(str);
+  if (chars[0] == chars[1])
     return (0);
-  if (str[line_0 - 2] == str[line_0 - 3])
+  if (chars[1] == chars[2])
     return (0);
-  if (str[line_0 - 3] == str[line_0 - 1])
+  if (chars[2] == chars[0])
     return (0);
   return (1);
 }
@@ -85,24 +61,20 @@ int	map_chars(char *str)
 {
   int i;
   int j;
-  int k;
-  int line_0;
+	int lines;
+  char *chars;
 
   i = 0;
   j = 0;
-  line_0 = 0;
-  while (str[i])
+	lines = map_lines(str) + 1;
+	chars = ft_chars(str);
+  while (j < lines)
   {
-    k = 3;
-    if (j == 0 && str[i] != '\n')
-      line_0++;
-    if (j > 0 && str[i] != '\n')
-    {
-      if ((str[i] != str[line_0 - 1]) && (str[i] != str[line_0 - 2]) && (str[i] != str[line_0 - 3]))
-        return (0);
-    }
-    if (str[i] == '\n')
+		if (str[i] == '\n')
       j++;
+    if (j > 0 && str[i] > 31 && str[i] != 127)
+      if (str[i] != chars[0] && str[i] != chars[1])
+				return (0);
     i++;
   }
   return (1);
@@ -110,5 +82,6 @@ int	map_chars(char *str)
 
 int	map_check(char *str)
 {
+	//printf("%d, %d, %d, %d\n", map_chars(str), map_lines(str), map_double(str), map_isprint(str));
   return (map_chars(str) * map_lines(str) * map_double(str) * map_isprint(str));
 }
